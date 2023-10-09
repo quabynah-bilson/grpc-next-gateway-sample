@@ -1,0 +1,22 @@
+syntax = "proto3";
+package server;
+
+option go_package = "github.com/dennis-bilson/grpc-server";
+
+// HelloRequest is the request message containing the name of the person.
+message HelloRequest {
+  string name = 1; // the name of the client who will send the request
+}
+
+message HelloResponse {
+  string greeting = 1; // the greeting message to the client (includes the name of the client)
+}
+
+// GreeterService is the service that the server will implement
+service GreeterService {
+  // sayHello is a unary method
+  rpc sayHello (HelloRequest) returns (HelloResponse);
+
+  // sayHelloAgain is a server streaming method
+  rpc sayHelloAgain (HelloRequest) returns (stream HelloResponse);
+}
