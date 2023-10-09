@@ -1,0 +1,20 @@
+services:
+  grpc-server:
+    build:
+      context: .
+      dockerfile: "server/Dockerfile"
+    expose:
+      - "8888"
+    ports:
+      - "8888:8888"
+
+  gateway-proxy:
+    build:
+      context: .
+      dockerfile: "proxy/Dockerfile"
+    expose:
+      - "8889"
+    ports:
+      - "8889:8889"
+    depends_on:
+      - grpc-server

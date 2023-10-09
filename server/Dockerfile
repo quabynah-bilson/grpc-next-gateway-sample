@@ -20,7 +20,7 @@ WORKDIR /app
 # copy the binary from builder
 COPY --from=builder /app/server .
 
-# expose port 8080
+# expose port 8888
 EXPOSE 8888
 
 # command to run the binary

@@ -1,16 +1,11 @@
-start-grpc-server:
-	@echo "Starting gRPC server..." && \
-	cd server && \
-	go run ./...
-
 dockerize-server:
 	@echo "Dockerizing gRPC server..." && \
-	cd server && \
-	docker build -t sample-grpc-server .
+	docker build -f ./server/Dockerfile -t sample-grpc-server . && \
+	docker build -f ./proxy/Dockerfile -t sample-grpc-proxy .
 
 run-server-on-docker:
 	@echo "Running gRPC server on Docker..." && \
-	docker run -p 8888:8888 sample-grpc-server
+	docker-compose up
 
 generate-proto-for-server:
 	@echo "Generating proto for server..." && \
@@ -19,7 +14,7 @@ generate-proto-for-server:
 
 generate-proto-for-ts-webapp:
 	@echo "Generating proto for ts-webapp..." && \
-	mkdir -p webapp/src/gen && \
-	protoc -I ./protos ./protos/*.proto --js_out=import_style=commonjs:./webapp/src/gen --grpc-web_out=import_style=typescript,mode=grpcweb:./webapp/src/gen
+	mkdir -p webapp/app/gen && \
+	protoc -I ./protos ./protos/*.proto --js_out=import_style=commonjs:./webapp/app/gen --grpc-web_out=import_style=typescript,mode=grpcweb:./webapp/app/gen
 
-.PHONY: start-grpc-client dockerize-client run-client-on-docker generate-proto-for-client
+.PHONY: dockerize-server run-server-on-docker generate-proto-for-server generate-proto-for-ts-webapp
